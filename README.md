@@ -6,7 +6,7 @@
 
 Using CoinMarketCap's API, I built an automated pipeline that extracts cryptocoins and its details by calling the API, saving them into JSON files, viewed in the `data/raw` folder. They are then transformed and saved as a parquet, viewed in the `data/processed` folder. Percentage changes and volumes within 24 hours moving ranges are calculated onto a dashboard.
 
-```Mermaid
+```mermaid
 graph LR
     subgraph "Local Computer"
         A[CoinMarketCap API] -- "Python Requests" --> DOCKER
@@ -33,7 +33,6 @@ graph LR
         ATHENA --> BI[Power BI / Dashboard]
     end
 
-    %% Styling
     style DOCKER fill:#f5f5f5,stroke:#232f3e,stroke-width:2px,stroke-dasharray: 5 5
     style S3_RAW fill:#ff9900,color:#fff
     style S3_GOLD fill:#ff9900,color:#fff
