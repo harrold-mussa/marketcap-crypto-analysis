@@ -17,3 +17,4 @@ __pycache__/
 
 # LocalStack Data
 .localstack/
+infra/localstack_data/
