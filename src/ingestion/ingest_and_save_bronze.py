@@ -22,7 +22,6 @@ aws_default_region_id = os.getenv("AWS_DEFAULT_REGION_ID")
 # Initializing S3 Client using boto3 down here:
 s3_client = boto3.client(
     's3',
-    servie_name='s3',
     aws_access_key_id=aws_access_key_id,
     aws_secret_access_key=aws_secret_access_key,
     region_name=aws_default_region_id,
@@ -37,19 +36,20 @@ def fetching_api():
         'limit': '5000',
         'convert': 'USD',
         'sort': 'market_cap',
-        'aux': 'tags,platform,total_supply,max_supply'
+        'aux': 'cmc_rank,tags,platform,total_supply,max_supply'
     }
     # Following the CoinMarketCap's API Documentation of using Session down below:
     with requests.Session() as session:
         session.headers.update({
           'Accepts': 'application/json',
-          'X-CMC_PRO_API_KEY': os.environ["CMC_API_KEY"]
+          'X-CMC_PRO_API_KEY': cmc_api_key
         })
 
         try:
             response = session.get(url, params=parameters)
             data = json.loads(response.text)
             print(data)
+            return data
         except (ConnectionError, Timeout, TooManyRedirects) as e:
             print(f"Network Error occured: {e}")
             return None

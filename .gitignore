@@ -18,3 +18,12 @@ __pycache__/
 # LocalStack Data
 .localstack/
 infra/localstack_data/
+infra/locastack_data/cache
+
+# Ignore all data files, but keep the folders
+data/**/*.json
+data/**/*.parquet
+data/**/*.csv
+data
+data/gold
+data/raw
