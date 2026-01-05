@@ -1,0 +1,6 @@
+January 05 2026
+---------------------------------
+
+1. Followed CoinMarketCap API Documentation to ensure fetching the API is correct. However, documentation indicates that their Python used is 2.7 rather than the latest version.
+2. Created fetching_api() function to fetch CoinMarketCap's API.
+3. Crated save_to_s3_bronze() function to save data into AWS S3 Bucket (bronze layer).
