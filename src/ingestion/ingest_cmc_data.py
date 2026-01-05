@@ -56,14 +56,19 @@ def fetching_api():
         
 # Saving data to S3 Bronze Layer Bucket, view down below:    
 def save_to_s3_bronze(data):
+    if not data:
+        print("No data to save to S3.")
+        return
+    
     s3_bucket_name = os.getenv("S3_BUCKET")
     now = datetime.now()
     timestamp = now.strftime("%Y%m%d_%H%M%S")
 
     partition_path = now.strftime("year=%Y/month=%m/day=%d/")
     file_key = f"bronze/{partition_path}/cmc_raw_{timestamp}.json"
+
     try:
-        s3_bucket.put_object(
+        s3_client.put_object(
         Bucket=s3_bucket_name,
         Key=file_key,
         Body=json.dumps(data)
