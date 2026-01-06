@@ -8,34 +8,46 @@ Using CoinMarketCap's API, I built an automated pipeline that extracts cryptocoi
 
 ```mermaid
 graph LR
-    subgraph "Local Computer"
-        A[CoinMarketCap API] -- "Python Requests" --> DOCKER
+    %% Source
+    API[CoinMarketCap API]
 
-        subgraph DOCKER [Docker Container: LocalStack]
-            direction TB
-            S3_RAW[(S3 Bucket: /raw)] 
-            LAMBDA[Lambda: Ingestion]
-            GLUE[Glue: ETL Job]
-            S3_GOLD[(S3 Bucket: /gold)]
-            
-            LAMBDA --> S3_RAW
-            S3_RAW --> GLUE
-            GLUE --> S3_GOLD
-        end
-
-        subgraph "Star Schema Modeling"
-            S3_GOLD --> DIM_C[dim_coins]
-            S3_GOLD --> DIM_D[dim_date]
-            S3_GOLD --> FACT[fact_listings]
-        end
-
-        S3_GOLD -- "SQL Query" --> ATHENA[Athena / DuckDB]
-        ATHENA --> BI[Power BI / Dashboard]
+    subgraph "Ingestion Layer (Bronze)"
+        Lambda[Python Ingestion Script / Lambda]
+        S3_RAW[(S3 Bucket: /raw)]
     end
 
-    style DOCKER fill:#f5f5f5,stroke:#232f3e,stroke-width:2px,stroke-dasharray: 5 5
-    style S3_RAW fill:#ff9900,color:#fff
-    style S3_GOLD fill:#ff9900,color:#fff
-    style LAMBDA fill:#ec7211,color:#fff
-    style GLUE fill:#ec7211,color:#fff
+    subgraph "Transformation Layer (Silver)"
+        Glue[Python ETL Script / Glue]
+        S3_PROCESSED[(S3 Bucket: /processed)]
+    end
+
+    subgraph "Analytics Layer (Gold)"
+        Modeling[Star Schema Modeling]
+        S3_GOLD[(S3 Bucket: /gold)]
+        DIM_C[dim_coins]
+        DIM_D[dim_date]
+        FACT[fact_listings]
+    end
+
+    %% Flow
+    API -->|JSON| Lambda
+    Lambda --> S3_RAW
+    S3_RAW -->|Transform| Glue
+    Glue --> S3_PROCESSED
+    S3_PROCESSED --> Modeling
+    Modeling --> S3_GOLD
+    S3_GOLD --> DIM_C
+    S3_GOLD --> DIM_D
+    S3_GOLD --> FACT
+
+    %% Final Consumption
+    FACT --> ATHENA[Athena / DuckDB]
+    ATHENA --> BI[Power BI Dashboard]
+
+    %% Styling
+    style S3_RAW fill:#f96,stroke:#333
+    style S3_PROCESSED fill:#f96,stroke:#333
+    style S3_GOLD fill:#f96,stroke:#333
+    style API fill:#4CAF50,color:#fff
+    style BI fill:#2196F3,color:#fff
 ```
