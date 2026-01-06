@@ -19,6 +19,11 @@ __pycache__/
 .localstack/
 infra/localstack_data/
 infra/locastack_data/cache
+infra/
+infra/localstack_data/cache/machine.json
+infra/localstack_data/cache/server.test.pem
+infra/localstack_data/cache/server.test.pem.crt
+infra/localstack_data/cache/server.test.pem.key
 
 # Ignore all data files, but keep the folders
 data/**/*.json

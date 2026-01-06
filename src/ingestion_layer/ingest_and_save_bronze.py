@@ -8,23 +8,23 @@ from dotenv import load_dotenv
 from datetime import datetime
 
 load_dotenv()
+
 # Loading the .env CryptoMarketCap API Key down here:
 cmc_api_key = os.getenv("CMC_API_KEY")
+
 # Loading the .env LocalStack Endpoint Key down here:
 endpoint_key = os.getenv("LOCALSTACK_ENDPOINT")
 print(f"Loaded for endpoint: {endpoint_key}")
+
 # Loading the .env S3 Bucket down here:
 s3_bucket = os.getenv("S3_BUCKET")
-# Loading the .env AWS details down here:
-aws_access_key_id = os.getenv("AWS_ACCESS_KEY_ID")
-aws_secret_access_key = os.getenv("AWS_SECRET_ACCESS_KEY")
-aws_default_region_id = os.getenv("AWS_DEFAULT_REGION_ID")
+
 # Initializing S3 Client using boto3 down here:
 s3_client = boto3.client(
     's3',
-    aws_access_key_id=aws_access_key_id,
-    aws_secret_access_key=aws_secret_access_key,
-    region_name=aws_default_region_id,
+   aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+    region_name=os.getenv("AWS_DEFAULT_REGION_ID"),
     endpoint_url=endpoint_key
 )
 
