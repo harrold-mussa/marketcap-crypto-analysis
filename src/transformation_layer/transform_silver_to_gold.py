@@ -50,26 +50,31 @@ def transform_silver_to_gold():
 
     fact_listings = df.merge(dim_coins, on=['ticker', 'coin_name'])
     fact_listings['date_id'] = fact_listings['api_timestamp'].dt.strftime('%Y%m%d%H')
+    target_columns = ['coin_id', 'date_id', 'price_usd', 'market_cap', 'rank']
+    available_cols = [c for c in target_columns if c in fact_listings.columns]
+    fact_listings = fact_listings[available_cols].copy()
+
+    if 'rank' not in fact_listings.columns:
+        fact_listings['rank'] = 0 
+    
+    if 'market_cap' not in fact_listings.columns:
+        fact_listings['market_cap'] = 0.0
+
     fact_listings = fact_listings[['coin_id', 'date_id', 'price_usd', 'market_cap', 'rank']]
 
     tables = {
-        'dim_coins': dim_coins,
-        'dim_date': dim_date,
+        'dim_coins': dim_coins, 
+        'dim_date': dim_date, 
         'fact_listings': fact_listings
     }
-    
+
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    
     for name, table_df in tables.items():
         buffer = BytesIO()
         table_df.to_parquet(buffer, index=False)
-
         gold_key = f"gold/{name}_{timestamp}.parquet"
-
-        s3_client.put_object(
-            Bucket=bucket,
-            Key=gold_key,
-            Body=buffer.getvalue()
-        )
+        s3_client.put_object(Bucket=bucket, Key=gold_key, Body=buffer.getvalue())
         print(f"Transformed data saved to: {gold_key}")
 
 # Running the transformation function down here:
