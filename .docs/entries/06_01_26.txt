@@ -1,0 +1,8 @@
+January 06 2026
+---------------------------------
+
+1. Created transform_silver_to_bronze() function to transform silver data into properly processed data in the gold layer.
+2. Updated the Readme.md file
+3. Created Exploration Jupyter Notebook to explore finalized parquet data. 
+4. Completion of Jupyter Notebook, indicating bar chart of Cryptocoins, and it's 1-year performance change. 
+5. Added backfill util tool. 
