@@ -3,6 +3,7 @@ January 05 2026
 
 1. Followed CoinMarketCap API Documentation to ensure fetching the API is correct. However, documentation indicates that their Python used is 2.7 rather than the latest version.
 2. Created fetching_api() function to fetch CoinMarketCap's API.
-3. Crated save_to_s3_bronze() function to save data into AWS S3 Bucket (bronze layer).
+3. Crated save_to_s3_bronze() function to save data into an AWS S3 Bucket, acting as the Lambda Ingestion. 
 4. Creation of the .gitignore file
 5. Creation of the requirements.txt file
+6. Created transform_bronze_to_silver() function to collect raw data and transform into a readable parquet file, acting as the Glue ETL Job. 
