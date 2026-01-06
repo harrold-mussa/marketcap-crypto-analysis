@@ -47,7 +47,6 @@ graph LR
     style S3_PROCESSED fill:#f96,stroke:#333
     style S3_GOLD fill:#f96,stroke:#333
     style API fill:#4CAF50,color:#fff
-    style BI fill:#2196F3,color:#fff
 ```
 
 ## Technical Stack
