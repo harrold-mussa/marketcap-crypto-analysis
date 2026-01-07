@@ -95,7 +95,7 @@ Down below are the steps to recreate this project:
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/yourusername/marketcap-crypto-analysis.git](https://github.com/yourusername/marketcap-crypto-analysis.git)
+   git clone [https://github.com/yourusername/marketcap-crypto-pipeline.git](https://github.com/yourusername/marketcap-crypto-pipeline.git)
    cd marketcap-crypto-analysis
 
 2. **Configure Environment Variables:** Create a `.env` file in the root directory:
